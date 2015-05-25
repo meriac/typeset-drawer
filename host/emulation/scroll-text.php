@@ -23,7 +23,7 @@ for($x=0; $x<$width; $x++)
 	imagecopy($frame, $src, 0, 0, $x, 0, $height, $height);
 
 	printf("rendering frame %3.1f%%\n", 100*($x / $width)); 
-	render_typset($frame, "cache/animation-$x.png");
+	render_typset($frame, "cache/output-$x.png");
 }
 
 
