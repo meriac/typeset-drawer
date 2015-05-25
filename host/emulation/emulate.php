@@ -31,12 +31,30 @@ foreach($boxes as $box)
 	if($py>3)
 		$y += BOX_SPACE_Y;
 
+	/*/ calculate average color */
+	$rgb = array(0,0,0);
+	for($dx = 0; $dx<$width; $dx++)
+		for($dy = 0; $dy<$height; $dy++)
+		{
+			$pixel = imagecolorat($src, $px+$dx, $py+$dy );
+			/* add RGB values */
+			$rgb[0] += ($pixel >> 16) & 0xFF;
+			$rgb[1] += ($pixel >>  8) & 0xFF;
+			$rgb[2] += ($pixel >>  0) & 0xFF;
+		}
+	/* divide colors by amount */
+	$count = $width * $height;
+	$color = imagecolorallocate ( $dst,
+		$rgb[0]/$count,
+		$rgb[1]/$count,
+		$rgb[2]/$count);
+
 	imagefilledrectangle(
 		$dst,
 		$x, $y,
 		$x + ($width  * BOX_DX)-BOX_BORDER,
 		$y + ($height * BOX_DY)-BOX_BORDER,
-		$white);
+		$color);
 }
 
 if(!imagepng($dst, 'output.png'))
