@@ -1,6 +1,6 @@
 <?php
 
-function render_typset($src_file, $dst_file)
+function render_typset($src_file, $dst_file = FALSE)
 {
 	global $boxes;
 
@@ -11,7 +11,11 @@ function render_typset($src_file, $dst_file)
 	$src = imagecreatetruecolor(BOXES_X, BOXES_Y);
 	imagecopyresampled($src, $png, 0, 0, 0, 0, BOXES_X, BOXES_Y, imagesx($png), imagesy($png));
 
-	$dst = imagecreatetruecolor(IMG_SIZE, IMG_SIZE);
+	if($dst_file)
+		$dst = imagecreatetruecolor(IMG_SIZE, IMG_SIZE);
+
+	/* resulting frame */
+	$res = array();
 
 	foreach($boxes as $box)
 	{
@@ -42,20 +46,30 @@ function render_typset($src_file, $dst_file)
 
 		/* divide colors by pixel count */
 		$count = $width * $height;
-		$color = imagecolorallocate ( $dst,
-			$rgb[0]/$count,
-			$rgb[1]/$count,
-			$rgb[2]/$count);
+		$rgb[0] = intval($rgb[0]/$count);
+		$rgb[1] = intval($rgb[1]/$count);
+		$rgb[2] = intval($rgb[2]/$count);
 
-		/* draw single box */
-		imagefilledrectangle(
-			$dst,
-			$x, $y,
-			$x + ($width  * BOX_DX)-BOX_BORDER,
-			$y + ($height * BOX_DY)-BOX_BORDER,
-			$color);
+		/* store RGB pixel in output array */
+		$res[] = $rgb;
+
+		if($dst_file)
+		{
+			/* draw pixel in output image according to colour */
+			$color = imagecolorallocate ( $dst, $rgb[0], $rgb[1], $rgb[2]);
+
+			/* draw single box */
+			imagefilledrectangle(
+				$dst,
+				$x, $y,
+				$x + ($width  * BOX_DX)-BOX_BORDER,
+				$y + ($height * BOX_DY)-BOX_BORDER,
+				$color);
+		}
 	}
 
-	return imagepng($dst, $dst_file);
-}
+	if($dst_file)
+		imagepng($dst, $dst_file);
 
+	return $res;
+}
