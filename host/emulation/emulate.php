@@ -7,10 +7,6 @@ require('render.php');
 define('IMAGE_FILE_IN','input.png');
 define('IMAGE_FILE_OUT','output.png');
 
-/* calculate derieved metrics */
-define('BOX_DX', (IMG_SIZE-BOX_BORDER-2*BOX_SPACE_X)/BOXES_X);
-define('BOX_DY', (IMG_SIZE-BOX_BORDER-1*BOX_SPACE_Y)/BOXES_Y);
-
 function print_header($colors)
 {
 	echo "#ifndef __TYPESET_BOX_H__\r\n";

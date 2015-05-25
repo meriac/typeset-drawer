@@ -5,8 +5,13 @@ function render_typset($src_file, $dst_file = FALSE)
 	global $boxes;
 
 	/* read source image from file - expects to be square */
-	if(($png = imagecreatefrompng($src_file))===FALSE)
-		return FALSE;
+	if(!is_string($src_file))
+		$png = $src_file;
+	else
+	{
+		if(($png = imagecreatefrompng($src_file))===FALSE)
+			return FALSE;
+	}
 
 	$src = imagecreatetruecolor(BOXES_X, BOXES_Y);
 	imagecopyresampled($src, $png, 0, 0, 0, 0, BOXES_X, BOXES_Y, imagesx($png), imagesy($png));

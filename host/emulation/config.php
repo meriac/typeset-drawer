@@ -14,6 +14,10 @@ define('BOX_BORDER', 10);
 define('BOX_SPACE_X', 15);
 define('BOX_SPACE_Y', 5);
 
+/* calculate derieved metrics */
+define('BOX_DX', (IMG_SIZE-BOX_BORDER-2*BOX_SPACE_X)/BOXES_X);
+define('BOX_DY', (IMG_SIZE-BOX_BORDER-1*BOX_SPACE_Y)/BOXES_Y);
+
 /* box configuration:
  * x, y, width, height 
  */
