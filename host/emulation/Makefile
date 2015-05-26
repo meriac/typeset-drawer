@@ -20,7 +20,7 @@ cube:
 	convert $(MOVIE_IMG) -shave 100x0 $(CACHE_DIR)/animation.png
 
 gif: emulate
-	convert -delay 10 -loop 0 `ls -rt cache/output*` $(ANIMATION)
+	convert -delay 5 -loop 0 `ls -rt cache/output*` $(ANIMATION)
 
 clean:
 	rm -rf $(CACHE_DIR) $(MOVIE_IMG) $(ANIMATION) output.png
